@@ -1,0 +1,124 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #fff; 
+  }
+  
+  .request-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #130259;
+    cursor: pointer;
+    font-size: 1rem;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 5px 10px;
+    max-width: 150px;
+    width: auto;
+  }
+
+  .request-form-card {
+    background: white;
+    padding: 40px 5px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .request-form h2 {
+    margin-bottom: 20px;
+    color: #130259;
+    font-size: 40px;
+  }
+  
+  .no{
+    padding-bottom: 50px;
+  }
+
+  .request-form label {
+    display: block;
+    margin: 5px 0 5px 0;
+    font-size: 20px;
+    color: #130259;
+    align-items: left;
+    text-align: left;
+  }
+  
+  .request-form input,
+  .request-form select {
+    width: 80%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .request-form button {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    background-color: #130259;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  
+  .request-form button:hover {
+    background-color: #130259;
+  }
+
+  .success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #090909;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeInOut 2s ease-in-out;
+  }
+  
+
+  @media (min-width: 768px) {
+    h2{
+        font-size: 20px;
+      }
+  }
+  
+  @media (max-width: 767px) {
+    h2{
+      font-size: 20px;
+    }
+
+  }

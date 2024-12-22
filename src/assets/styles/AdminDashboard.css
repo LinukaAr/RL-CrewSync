@@ -1,0 +1,96 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5; 
+  }
+  
+  .admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .admin-dashboard h2 {
+    margin-bottom: 20px;
+    color: #130259;
+    font-size: 30px;
+  }
+  
+  .requests-list {
+    max-height: 800px; 
+    width: 100%;
+    overflow-y: auto; 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    display: grid;
+    grid-template-columns: 1fr; /* Default to one column */
+    gap: 10px; /* Space between grid items */
+  }
+  
+  
+  .request-item {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Media query for larger screens */
+  @media (min-width: 768px) {
+    .requests-list {
+      grid-template-columns: repeat(4, 1fr); /* Three columns on larger screens */
+    }
+  }
+  
+  .request-item p {
+    margin: 5px 0;
+  }
+  
+  .request-item select {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .request-item button {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    background-color: #130259;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .request-item button:hover {
+    background-color: #130259;
+  }
+  
+  .logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #130259;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #130259;
+  }
