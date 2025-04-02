@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { FaUserShield, FaCamera, FaChevronRight } from "react-icons/fa"
 import "../assets/styles/MainLogin.css"
-import logo from "../assets/images/logo.png"
+import logo from "../assets/images/RL-logo.png"
 
 const MainLogin = () => {
   const [showModal, setShowModal] = useState(false)
@@ -88,6 +88,7 @@ const MainLogin = () => {
                 <option value="6">Camera 6</option>
                 <option value="7">Camera 7</option>
                 <option value="8">Camera 8</option>
+                <option value="0">Other</option>
               </select>
             </div>
             <button
