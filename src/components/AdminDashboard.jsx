@@ -4,13 +4,14 @@ import { useState, useEffect } from "react"
 import { getDocs, setDoc, doc, updateDoc, getDoc, collection } from "firebase/firestore"
 import { db } from "../firebase"
 import { useNavigate } from "react-router-dom"
-import { FaCheck, FaSearch, FaSort, FaHistory, FaClipboardList } from "react-icons/fa"
-import "../assets/styles/AdminDashboard.css";
+import { FaCheck, FaSearch, FaSort, FaHistory, FaClipboardList, FaSync } from "react-icons/fa"
+import "../assets/styles/AdminDashboard.css"
 
 // Create a new CSS file for the improved styling
 const AdminDashboard = () => {
   const [requests, setRequests] = useState([])
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState({})
   const [updatedStatus, setUpdatedStatus] = useState({}) // Track update status
   const [activeTab, setActiveTab] = useState("active") // 'active' or 'history'
@@ -18,17 +19,29 @@ const AdminDashboard = () => {
   const [sortNewest, setSortNewest] = useState(true)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchRequests = async () => {
+  const fetchRequests = async () => {
+    try {
+      setRefreshing(true)
       const requestsCollection = collection(db, "requests")
       const requestSnapshot = await getDocs(requestsCollection)
       const requestList = requestSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
       setRequests(requestList)
+      return requestList
+    } catch (error) {
+      console.error("Error fetching requests:", error)
+    } finally {
       setLoading(false)
+      setRefreshing(false)
     }
+  }
 
+  useEffect(() => {
     fetchRequests()
   }, [])
+
+  const handleRefresh = async () => {
+    await fetchRequests()
+  }
 
   const handleStatusUpdate = async (id, newStatus) => {
     try {
@@ -117,9 +130,19 @@ const AdminDashboard = () => {
     <div className="admin-dashboard">
       <header className="dashboard-header">
         <h1>Equipment Request Dashboard</h1>
-        <button className="logout-button" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="header-actions">
+          <button
+            className={`refresh-button ${refreshing ? "refreshing" : ""}`}
+            onClick={handleRefresh}
+            disabled={refreshing}
+            title="Refresh requests"
+          >
+            <FaSync /> {refreshing ? "Refreshing..." : "Refresh"}
+          </button>
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </header>
 
       <div className="dashboard-controls">
