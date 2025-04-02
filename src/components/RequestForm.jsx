@@ -9,6 +9,7 @@ import {
   FaExclamationTriangle,
   FaExclamationCircle,
   FaInfoCircle,
+  FaMapMarkerAlt,
 } from "react-icons/fa"
 import "../assets/styles/RequestForm.css"
 import { db } from "../firebase" // Import Firestore instance
@@ -22,6 +23,7 @@ function RequestForm() {
   const query = useQuery()
   const initialCameraNo = query.get("cameraNo") || ""
   const [cameraNo, setCameraNo] = useState(initialCameraNo)
+  const [location, setLocation] = useState("")
   const [priority, setPriority] = useState("Low")
   const [items, setItems] = useState("")
   const [showSuccess, setShowSuccess] = useState(false)
@@ -38,6 +40,11 @@ function RequestForm() {
       return
     }
 
+    if (cameraNo === "0" && !location.trim()) {
+      alert("Please enter your location")
+      return
+    }
+
     setIsSubmitting(true)
 
     const newRequest = {
@@ -46,6 +53,11 @@ function RequestForm() {
       priority,
       status: "Pending",
       timestamp: new Date().toISOString(),
+    }
+
+    // Add location to request if "Other" is selected
+    if (cameraNo === "0") {
+      newRequest.location = location
     }
 
     try {
@@ -88,6 +100,8 @@ function RequestForm() {
     }
   }
 
+  const isOtherLocation = cameraNo === "0"
+
   return (
     <div className="request-form-container">
       <div className="request-form-wrapper">
@@ -99,10 +113,26 @@ function RequestForm() {
         </div>
 
         <div className="request-form-card">
-          <div className="camera-badge">
-            <span>Camera</span>
-            <strong>{cameraNo}</strong>
+          <div className={`camera-badge ${isOtherLocation ? "location-badge" : ""}`}>
+            <span>{isOtherLocation ? "Location" : "Camera"}</span>
+            {isOtherLocation ? <FaMapMarkerAlt className="location-icon" /> : <strong>{cameraNo}</strong>}
           </div>
+
+          {isOtherLocation && (
+            <div className="form-group">
+              <label htmlFor="location">Your Location:</label>
+              <div className="input-with-icon">
+                <input
+                  id="location"
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Enter your location"
+                  className="form-input"
+                />
+              </div>
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="items">Items Needed:</label>

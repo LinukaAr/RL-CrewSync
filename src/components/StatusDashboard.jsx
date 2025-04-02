@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { getDocs, collection, query as firestoreQuery, where, doc, updateDoc } from "firebase/firestore"
 import { db } from "../firebase"
 import { useNavigate, useLocation } from "react-router-dom"
-import { FaHome, FaPlus, FaCheckCircle, FaHourglassHalf, FaBoxOpen, FaTruck } from "react-icons/fa"
+import { FaHome, FaPlus, FaCheckCircle, FaHourglassHalf, FaBoxOpen, FaTruck, FaMapMarkerAlt } from "react-icons/fa"
 import "../assets/styles/StatusDashboard.css"
 
 const useQueryParams = () => {
@@ -103,13 +103,27 @@ const StatusDashboard = () => {
     )
   }
 
+  // Check if this is an "Other" location request
+  const isOtherLocation = cameraNo === "0"
+  // Get the location from the first request if it exists
+  const locationName = isOtherLocation && requests.length > 0 ? requests[0].location : null
+
   return (
     <div className="status-dashboard-container">
       <div className="status-dashboard-header">
         <button className="home-button" onClick={handleHome}>
           <FaHome />
         </button>
-        <h1>Camera {cameraNo} Status</h1>
+        <h1>
+          {isOtherLocation ? (
+            <span className="location-title">
+              <FaMapMarkerAlt className="location-icon" />
+              {locationName || "Other Location"}
+            </span>
+          ) : (
+            `Camera ${cameraNo} Status`
+          )}
+        </h1>
       </div>
 
       <div className="status-dashboard-content">

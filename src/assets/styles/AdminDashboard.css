@@ -349,6 +349,18 @@
   font-size: 18px;
 }
 
+/* Location Header */
+.location-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.location-icon {
+  color: #fd7e14;
+  font-size: 16px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .requests-grid {

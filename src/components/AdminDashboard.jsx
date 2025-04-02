@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { getDocs, setDoc, doc, updateDoc, getDoc, collection } from "firebase/firestore"
 import { db } from "../firebase"
 import { useNavigate } from "react-router-dom"
-import { FaCheck, FaSearch, FaSort, FaHistory, FaClipboardList, FaSync } from "react-icons/fa"
+import { FaCheck, FaSearch, FaSort, FaHistory, FaClipboardList, FaSync, FaMapMarkerAlt } from "react-icons/fa"
 import "../assets/styles/AdminDashboard.css"
 
 // Create a new CSS file for the improved styling
@@ -105,7 +105,8 @@ const AdminDashboard = () => {
         searchTerm === "" ||
         req.cameraNo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         req.items?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        req.priority?.toLowerCase().includes(searchTerm.toLowerCase())
+        req.priority?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        req.location?.toLowerCase().includes(searchTerm.toLowerCase())
 
       return tabMatch && searchMatch
     })
@@ -160,7 +161,7 @@ const AdminDashboard = () => {
             <FaSearch className="search-icon" />
             <input
               type="text"
-              placeholder="Search by camera, items, or priority..."
+              placeholder="Search by camera, items, location, or priority..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
@@ -187,7 +188,14 @@ const AdminDashboard = () => {
             {filteredRequests.map((req) => (
               <div key={req.id} className={`request-card priority-${req.priority?.toLowerCase()}`}>
                 <div className="request-header">
-                  <h3>{req.cameraNo}</h3>
+                  {req.cameraNo === "0" ? (
+                    <div className="location-header">
+                      <FaMapMarkerAlt className="location-icon" />
+                      <h3>{req.location || "Other Location"}</h3>
+                    </div>
+                  ) : (
+                    <h3>Camera {req.cameraNo}</h3>
+                  )}
                   <span className={`priority-badge priority-${req.priority?.toLowerCase()}`}>{req.priority}</span>
                 </div>
 

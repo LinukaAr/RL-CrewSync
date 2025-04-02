@@ -235,6 +235,16 @@ body {
   margin-top: 10px;
 }
 
+.location-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.location-icon {
+  color: #fd7e14;
+}
+
 .request-actions {
   padding: 15px;
   border-top: 1px solid #eee;
