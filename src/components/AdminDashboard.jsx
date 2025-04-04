@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { getDocs, setDoc, doc, updateDoc, getDoc, collection } from "firebase/firestore"
+import { onSnapshot, getDocs, setDoc, doc, updateDoc, getDoc, collection } from "firebase/firestore"
 import { db } from "../firebase"
 import { useNavigate } from "react-router-dom"
 import { FaCheck, FaSearch, FaSort, FaHistory, FaClipboardList, FaSync, FaMapMarkerAlt } from "react-icons/fa"
 import "../assets/styles/AdminDashboard.css"
+
 
 // Create a new CSS file for the improved styling
 const AdminDashboard = () => {
@@ -19,28 +20,24 @@ const AdminDashboard = () => {
   const [sortNewest, setSortNewest] = useState(true)
   const navigate = useNavigate()
 
-  const fetchRequests = async () => {
-    try {
-      setRefreshing(true)
-      const requestsCollection = collection(db, "requests")
-      const requestSnapshot = await getDocs(requestsCollection)
-      const requestList = requestSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      setRequests(requestList)
-      return requestList
-    } catch (error) {
-      console.error("Error fetching requests:", error)
-    } finally {
-      setLoading(false)
-      setRefreshing(false)
-    }
-  }
-
   useEffect(() => {
-    fetchRequests()
+    const requestsCollection = collection(db, "requests")
+
+    // Set up a real-time listener for the "requests" collection
+    const unsubscribe = onSnapshot(requestsCollection, (snapshot) => {
+      const requestList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      setRequests(requestList)
+      setLoading(false) // Ensure loading is set to false after the first snapshot
+    }, (error) => {
+      console.error("Error listening to requests:", error)
+    })
+
+    // Cleanup the listener on component unmount
+    return () => unsubscribe()
   }, [])
 
   const handleRefresh = async () => {
-    await fetchRequests()
+    console.log("Manual refresh triggered (real-time updates are already active).")
   }
 
   const handleStatusUpdate = async (id, newStatus) => {
@@ -132,14 +129,14 @@ const AdminDashboard = () => {
       <header className="dashboard-header">
         <h1>Equipment Request Dashboard</h1>
         <div className="header-actions">
-          <button
+          {/* <button
             className={`refresh-button ${refreshing ? "refreshing" : ""}`}
             onClick={handleRefresh}
             disabled={refreshing}
             title="Refresh requests"
           >
             <FaSync /> {refreshing ? "Refreshing..." : "Refresh"}
-          </button>
+          </button> */}
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>
